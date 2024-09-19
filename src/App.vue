@@ -1,15 +1,16 @@
 <template>
-  <div id="app" class="full-screen">
-    <h1>Todo List</h1>
-    <add-todo @addTodo="addTodo" />
-    <todo-list
-      :todos="todos"
-      @edit-todo="editTodo"
-      @delete-todo="deleteTodo"
-      @mark-complete="markAsComplete"
-      @save-todo="saveTodo"
-    />
-  </div>
+<div id="app" class="full-screen">
+
+  <h1>Todo List</h1>
+  <add-todo @addTodo="addTodo" />
+  <todo-list :todos="todos" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" />
+
+  <button @click="compKey++">Refresh</button>
+
+
+	<h2>Completed Todos</h2>
+  <todo-list :todos="completedTodos" :key="compKey"></todo-list>
+</div>
 </template>
 
 <script>
@@ -21,9 +22,16 @@ export default {
     AddTodo,
     TodoList,
   },
+  computed: {
+    completedTodos() {
+			console.log("Computed calling");
+      return this.todos.filter((e) => e.isComplete);
+    }
+  },
   data() {
     return {
       todos: [],
+			compKey: 0
     };
   },
   mounted() {
@@ -167,7 +175,8 @@ input[type="checkbox"] {
   gap: 10px;
 }
 
-button.edit, button.delete {
+button.edit,
+button.delete {
   font-size: 1rem;
 }
 

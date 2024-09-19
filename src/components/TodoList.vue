@@ -1,8 +1,9 @@
 <template>
   <div class="todo-list">
+		<input type="text" v-model="searchTxt" placeholder="Search..." />
     <ul>
       <todo-item
-        v-for="(todo,i) in todos"
+        v-for="(todo,i) in searchTodoByLetter(searchTxt)"
         :key="i"
         @edit-todo="editTodo"
         @delete-todo="deleteTodo"
@@ -19,6 +20,11 @@
 import TodoItem from "./TodoItem";
 export default {
   name: "TodoList",
+	data(){
+		return {
+			searchTxt: ""
+		}
+	},
   props: {
     todos: {
       type: Array,
@@ -29,6 +35,10 @@ export default {
     TodoItem,
   },
   methods: {
+		searchTodoByLetter(letter) {
+			console.log(letter);
+      return this.todos.filter((e)=> e.text.startsWith(letter))
+		},
     markAsComplete(index, todo) {
       this.$emit("mark-complete", index, todo);
     },
