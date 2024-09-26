@@ -1,6 +1,6 @@
 <template>
 <div id="completedTask" class="full-screen">
-	<h2>Completed Todos</h2>
+	<h1>Completed Todos</h1>
   <todo-list :todos="completedTodos" :key="compKey"></todo-list>
 </div>
 </template>
@@ -10,7 +10,7 @@ import TodoList from "../components/TodoList.vue";
 export default {
   name: "CompletedTask",
   components: {
-    
+
     TodoList,
   },
   computed: {

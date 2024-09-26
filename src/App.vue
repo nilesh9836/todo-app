@@ -1,17 +1,25 @@
 <template>
-<div id="app" class="full-screen">
-<nav>
-	<router-link to="/">Home</router-link>
-	<router-link to="/completed">Completed</router-link>
-</nav>
-<router-view/>
-</div>
+  <div id="app" class="full-screen">
+    <nav class="top-header">
+      <div class="nav-links">
+        <router-link to="/" class="nav-item">
+          <span class="material-icons">home</span>
+          <span>Home</span>
+        </router-link>
+        <router-link to="/completed" class="nav-item">
+          <span class="material-icons">check_circle</span>
+          <span>Completed</span>
+        </router-link>
+      </div>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
 <script>
 export default {
   name: "App",
-}
+};
 </script>
 
 <style scoped>
@@ -20,10 +28,11 @@ export default {
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
 }
 
 #app {
@@ -34,10 +43,49 @@ export default {
   color: #2c3e50;
 }
 
+.top-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  background-color: #42b983;
+  padding: 15px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  margin-right: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item:hover {
+  background-color: #36956b;
+  border-radius: 5px;
+}
+
+.nav-item span.material-icons {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
 h1 {
   font-size: 3rem;
   color: #42b983;
   margin-bottom: 20px;
+  margin-top: 80px; /* Adjusting for the header height */
 }
 
 input[type="text"] {
@@ -116,4 +164,47 @@ button.delete {
 button.delete:hover {
   background-color: #ff4d4d;
 }
+.top-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  background-color: #42b983;
+  padding: 0; /* Remove padding from the header */
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 60px; /* Define a fixed height for the header */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  height: 100%; /* Make the nav-links fill the header's height */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 0 20px; /* Adjust padding to space out the links horizontally */
+  margin: 0; /* Remove margin */
+  height: 100%; /* Make the nav-item fill the height of the header */
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer; /* Add cursor pointer to indicate clickability */
+}
+
+.nav-item:hover {
+  background-color: #36956b;
+  border-radius: 0; /* Remove border-radius if you want the background to fill the entire height */
+}
+
+.nav-item span.material-icons {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
 </style>

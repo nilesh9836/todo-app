@@ -1,16 +1,16 @@
 <template>
   <div class="todo-item">
     <div v-if="!isEdit" class="todo-content">
-      <input type="checkbox" v-model="isComplete" @change="markAsComplete(i,todo)" />
+      <input type="checkbox" v-model="isComplete" @change="markAsComplete" />
       <span :class="{ completed: isComplete }">{{ text }}</span>
     </div>
     <div v-else class="todo-edit">
       <input type="text" v-model="text" />
-      <button @click="saveTodo(i,todo)" class="save-btn">Save</button>
+      <button @click="saveTodo" class="save-btn">Save</button>
     </div>
     <div class="todo-actions">
-      <button @click="editTodo(i)" class="edit-btn">Edit</button>
-      <button @click="deleteTodo(i)" class="delete-btn">Delete</button>
+      <button @click="editTodo" class="edit-btn">Edit</button>
+      <button @click="deleteTodo" class="delete-btn">Delete</button>
     </div>
   </div>
 </template>

@@ -1,30 +1,21 @@
 <template>
-  <div class="todo-list">
-		<input type="text" v-model="searchTxt" placeholder="Search..." />
-    <ul>
-      <todo-item
-        v-for="(todo,i) in searchTodoByLetter(searchTxt)"
-        :key="i"
-        @edit-todo="editTodo"
-        @delete-todo="deleteTodo"
-        @mark-complete="markAsComplete"
-        @save-todo="saveTodo"
-        :todo="todo"
-        :i="i"
-      ></todo-item>
-    </ul>
-  </div>
+<div class="todo-list">
+  <input type="text" v-model="searchTxt" placeholder="Search..." />
+  <ul>
+    <todo-item v-for="(todo,i) in searchTodoByLetter(searchTxt)" :key="i" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" :todo="todo" :i="i"></todo-item>
+  </ul>
+</div>
 </template>
 
 <script>
 import TodoItem from "./TodoItem";
 export default {
   name: "TodoList",
-	data(){
-		return {
-			searchTxt: ""
-		}
-	},
+  data() {
+    return {
+      searchTxt: ""
+    }
+  },
   props: {
     todos: {
       type: Array,
@@ -35,22 +26,28 @@ export default {
     TodoItem,
   },
   methods: {
-		searchTodoByLetter(letter) {
-			console.log(letter);
-      return this.todos.filter((e)=> e.text.startsWith(letter))
-		},
+    searchTodoByLetter(letter) {
+      console.log(letter);
+      return this.todos.filter((e) => e.text.startsWith(letter));
+    },
     markAsComplete(index, todo) {
-      this.$emit("mark-complete", index, todo);
+      this.$emit("mark-complete", {
+        index,
+        todo
+      });
     },
     saveTodo(index, todo) {
-      this.$emit("save-todo", index, todo);
+      this.$emit("save-todo", {
+        index,
+        todo
+      });
     },
     editTodo(index) {
       this.$emit("edit-todo", index);
     },
     deleteTodo(index) {
       this.$emit("delete-todo", index);
-    },
+    }
   },
 };
 </script>

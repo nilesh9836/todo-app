@@ -1,24 +1,24 @@
 <template>
 <div id="home" class="full-screen">
-
   <h1>Todo List</h1>
   <add-todo @addTodo="addTodo" />
-  <todo-list :todos="todos" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" />
+  <todo-list :todos="todos" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" :key="compKey"></todo-list>
 </div>
 </template>
 
 <script>
 import AddTodo from "../components/AddTodo.vue";
 import TodoList from "../components/TodoList.vue";
+
 export default {
-  name: "Home",
+  name: "HomeView",
   components: {
     AddTodo,
     TodoList,
   },
   computed: {
     completedTodos() {
-			console.log("Computed calling");
+      console.log("Computed calling");
       return this.todos.filter((e) => e.isComplete);
     }
   },
@@ -35,6 +35,7 @@ export default {
   watch: {
     todos: {
       handler(newV) {
+				console.log("Watch calling");
         localStorage.setItem("todos", JSON.stringify(newV));
       },
       deep: true,
@@ -58,15 +59,16 @@ export default {
       this.todos.forEach((e, index) => {
         if (i === index) e.isEdit = true;
       });
+			this.compKey++;
     },
-    saveTodo(i, todo) {
+    saveTodo({ index:i, todo:todo }) {
       this.todos.forEach((e, index) => {
         if (i === index) {
           e.text = todo.text;
           e.isEdit = false;
         }
       });
-      this.newTodo = "";
+			this.compKey++;
     },
     markAsComplete(i, todo) {
       this.todos.forEach((e, index) => {
