@@ -1,17 +1,79 @@
 <template>
-<div id="app" class="full-screen">
-<nav>
-	<router-link to="/">Home</router-link>
-	<router-link to="/completed">Completed</router-link>
-</nav>
-<router-view/>
+<div id="completedTask" class="full-screen">
+	<h2>Completed Todos</h2>
+  <todo-list :todos="completedTodos" :key="compKey"></todo-list>
 </div>
 </template>
 
 <script>
+import TodoList from "../components/TodoList.vue";
 export default {
-  name: "App",
-}
+  name: "CompletedTask",
+  components: {
+    
+    TodoList,
+  },
+  computed: {
+    completedTodos() {
+			console.log("Computed calling");
+      return this.todos.filter((e) => e.isComplete);
+    }
+  },
+  data() {
+    return {
+      todos: [],
+			compKey: 0
+    };
+  },
+  mounted() {
+    const savedTodos = localStorage.getItem("todos");
+    if (savedTodos) this.todos = JSON.parse(savedTodos);
+  },
+  watch: {
+    todos: {
+      handler(newV) {
+        localStorage.setItem("todos", JSON.stringify(newV));
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    addTodo(val) {
+      if (val.trim() !== "") {
+        const obj = {
+          text: val,
+          isEdit: false,
+          isComplete: false,
+        };
+        this.todos.push(obj);
+      }
+    },
+    deleteTodo(index) {
+      this.todos.splice(index, 1);
+    },
+    editTodo(i) {
+      this.todos.forEach((e, index) => {
+        if (i === index) e.isEdit = true;
+      });
+    },
+    saveTodo(i, todo) {
+      this.todos.forEach((e, index) => {
+        if (i === index) {
+          e.text = todo.text;
+          e.isEdit = false;
+        }
+      });
+      this.newTodo = "";
+    },
+    markAsComplete(i, todo) {
+      this.todos.forEach((e, index) => {
+        if (i === index) {
+          e.isComplete = todo.isComplete;
+        }
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
