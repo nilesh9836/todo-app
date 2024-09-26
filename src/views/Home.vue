@@ -70,7 +70,7 @@ export default {
       });
 			this.compKey++;
     },
-    markAsComplete(i, todo) {
+    markAsComplete({index:i, todo:todo}) {
       this.todos.forEach((e, index) => {
         if (i === index) {
           e.isComplete = todo.isComplete;
