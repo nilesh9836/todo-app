@@ -1,46 +1,43 @@
 <template>
-<div class="todo-list">
-  <input type="text" v-model="searchTxt" placeholder="Search..." />
-  <ul>
-    <todo-item v-for="(todo,i) in searchTodoByLetter(searchTxt)" :key="i" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" :todo="todo" :i="i"></todo-item>
-  </ul>
-</div>
+  <div class="todo-list">
+    <input type="text" v-model="searchTxt" placeholder="Search..." />
+    <ul>
+      <todo-item v-for="(todo, i) in searchTodoByLetter(searchTxt)" :key="i" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" :todo="todo" :i="i">
+				<template #default={todo}>
+         <span>{{ todo.text }}</span>
+				</template>
+				<template #action={todo}>
+         <span>named slot{{todo.text}}</span>
+				</template>
+			</todo-item>
+    </ul>
+  </div>
 </template>
 
 <script>
-import TodoItem from "./TodoItem";
+import TodoItem from "./TodoItem.vue";
+
 export default {
   name: "TodoList",
   data() {
     return {
       searchTxt: ""
-    }
+    };
   },
-  props: {
-    todos: {
-      type: Array,
-      default: () => [],
-    },
-  },
+	inject: ['todos'],
   components: {
     TodoItem,
   },
   methods: {
     searchTodoByLetter(letter) {
       console.log(letter);
-      return this.todos.filter((e) => e.text.startsWith(letter));
+      return this.todos().filter((e) => e.text.startsWith(letter));
     },
     markAsComplete(index, todo) {
-      this.$emit("mark-complete", {
-        index,
-        todo
-      });
+      this.$emit("mark-complete", { index, todo });
     },
     saveTodo(index, todo) {
-      this.$emit("save-todo", {
-        index,
-        todo
-      });
+      this.$emit("save-todo", { index, todo });
     },
     editTodo(index) {
       this.$emit("edit-todo", index);

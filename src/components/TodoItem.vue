@@ -1,16 +1,20 @@
 <template>
   <div class="todo-item">
     <div v-if="!isEdit" class="todo-content">
+			<slot :todo="todo">
       <input type="checkbox" v-model="isComplete" @change="markAsComplete" />
       <span :class="{ completed: isComplete }">{{ text }}</span>
+			</slot>
     </div>
     <div v-else class="todo-edit">
       <input type="text" v-model="text" />
       <button @click="saveTodo" class="save-btn">Save</button>
     </div>
     <div class="todo-actions">
+			<slot name="action" :todo="todo">
       <button @click="editTodo" class="edit-btn">Edit</button>
       <button @click="deleteTodo" class="delete-btn">Delete</button>
+			</slot>
     </div>
   </div>
 </template>
@@ -25,6 +29,7 @@ export default {
       isEdit: this.todo.isEdit
     };
   },
+	inject:['todos'],
   props: {
     todo: {
       type: Object,
@@ -35,6 +40,9 @@ export default {
       default: 0
     }
   },
+	mounted() {
+    console.log("injected value",this.todos());
+	},
   methods: {
     markAsComplete() {
       this.$emit('mark-complete', this.i, {

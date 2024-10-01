@@ -1,9 +1,9 @@
 <template>
-<div id="home" class="full-screen">
-  <h1>Todo List</h1>
-  <add-todo @addTodo="addTodo" />
-  <todo-list :todos="todos" @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" :key="compKey"></todo-list>
-</div>
+  <div id="home" class="full-screen">
+    <h1>Todo List</h1>
+    <add-todo @addTodo="addTodo" />
+    <todo-list  @edit-todo="editTodo" @delete-todo="deleteTodo" @mark-complete="markAsComplete" @save-todo="saveTodo" :key="compKey"></todo-list>
+  </div>
 </template>
 
 <script>
@@ -16,6 +16,11 @@ export default {
     AddTodo,
     TodoList,
   },
+	provide() {
+		return {
+			todos: () => this.todos
+		}
+	},
   computed: {
     completedTodos() {
       console.log("Computed calling");
@@ -25,7 +30,7 @@ export default {
   data() {
     return {
       todos: [],
-			compKey: 0
+      compKey: 0
     };
   },
   mounted() {
@@ -59,7 +64,7 @@ export default {
       this.todos.forEach((e, index) => {
         if (i === index) e.isEdit = true;
       });
-			this.compKey++;
+      this.compKey++;
     },
     saveTodo({ index:i, todo:todo }) {
       this.todos.forEach((e, index) => {
@@ -68,7 +73,7 @@ export default {
           e.isEdit = false;
         }
       });
-			this.compKey++;
+      this.compKey++;
     },
     markAsComplete({index:i, todo:todo}) {
       this.todos.forEach((e, index) => {
@@ -93,7 +98,7 @@ export default {
   box-sizing: border-box;
 }
 
-#app {
+#home {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
